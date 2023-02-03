@@ -1,0 +1,65 @@
+---
+output: 
+    word_document:
+        reference_docx: "plantilla-carta-template.docx"
+params:
+    Ciudad: 'Lima'
+    Fecha: '2023-02-03'
+    Remitente: 'Samuel Calderon Serrano'
+    DNI: '12345678'
+    Folios: '3'
+    Oportunidad: 'al inicio'
+    Email: 'user@ejemplo.com'
+    Telefono: '987654321'
+---
+
+# `r params$Ciudad`, `r format(params$Fecha |> as.Date(), "%d de %B de %Y")`
+
+CARTA N° 01-`r gsub("[^A-Z]","", params$Remitente)`
+
+Señor
+
+## **Subgerente de Gestión de Declaraciones Juradas** 
+
+## Contraloría General de la República Jr. Camilo Carrillo 114 
+
+## **Jesús María /Lima /Lima**
+
+```{r, echo=FALSE}
+asunto <- "Remisión de Declaración Jurada de Intereses – DJI"
+referencia <- "Cuarta Disposición Complementaria Transitoria del Reglamento que implementa la Ley N° 31227, respecto a la recepción, el ejercicio del control, fiscalización y sanción de la Declaración Jurada de Intereses de autoridades, funcionarios y servidores públicos del Estado, y candidatos a cargos públicos."
+
+tibble::tribble(
+    ~variable, ~puntos, ~valor,
+    "Asunto", ":", asunto,
+    "Referencia", ":", referencia
+) |> 
+    flextable::flextable() |> 
+    flextable::set_table_properties(layout = "autofit") |> 
+    flextable::border_remove() |> 
+    flextable::delete_part("header") |> 
+    flextable::font(fontname = "Arial") |> 
+    flextable::fontsize(size = 10) |> 
+    flextable::align(align = "justify") |> 
+    flextable::valign(valign = "top") |> 
+    flextable::padding(i = 2, padding.bottom = 24)
+```
+
+Yo, `r params$Remitente`, identificado
+con DNI `r params$DNI`, me dirijo a usted, en el marco de la
+normativa de la referencia, a fin de efectuar la remisión en original, en
+`r params$Folios` folios, y en sobre cerrado adjunto al presente, de mi DJI
+correspondiente al ejercicio presupuestal `r format(Sys.Date(), "%Y")` y de
+oportunidad de presentación `r params$Oportunidad` .
+
+Cualquier coordinación al respecto, sírvase
+comunicarse al correo electrónico `r params$Email` o al teléfono
+`r params$Telefono` .
+
+### Atentamente,
+
+\newline
+
+##### `r rep("_", nchar(params$Remitente) + 5) |> paste0(collapse="")` 
+
+##### `r params$Remitente`

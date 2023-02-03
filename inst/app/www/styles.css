@@ -1,0 +1,28 @@
+#viewerAsuntoReferencia>table {
+    border-color: #00000000;
+    text-align: justify;
+}
+
+#viewerLetterBody {
+    text-align: justify;
+}
+
+#viewerPhoneEmail {
+    text-align: justify;
+}
+
+#viewerSignature {
+    text-align: center;
+}
+
+#viewerRemitente {
+    text-align: center;
+}
+
+#letterWrapper {
+    max-width: 900px;
+    margin: auto;
+    border-color: black;
+    border-width: thin;
+    border-style: solid;
+}
