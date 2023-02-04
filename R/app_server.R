@@ -6,6 +6,8 @@
 #' @noRd
 app_server <- function(input, output, session) {
     
+    add_spaces <- function(x) paste0("__", x, "__")
+    
     inputs <- reactive({
         list(
             "Ciudad" = input$ciudad,
@@ -54,12 +56,10 @@ app_server <- function(input, output, session) {
         }
     )
     
-    output$viewerDate <- renderText({
-        paste0(input$ciudad, ", ", format(Sys.Date(), "%d de %B de %Y"))
-    })
+    output$viewerDate <- renderText(input$ciudad |> add_spaces())
     
     output$viewerLetterNumber <- renderText({
-        paste0("CARTA N° 01-", gsub("[^A-Z]","", input$remitente))
+        gsub("[^A-Z]","", input$remitente)
     })
     
     output$viewerAsuntoReferencia <- renderTable({
@@ -72,16 +72,16 @@ app_server <- function(input, output, session) {
             "Referencia", ":", referencia
         )
     }, 
-    colnames = FALSE, bordered = FALSE, )
+    colnames = FALSE, bordered = FALSE)
     
-    output$viewerLetterBody <- renderText({
-        glue::glue("Yo, {input$remitente}, identificado con DNI {input$dni}, me dirijo a usted, en el marco de la normativa de la referencia, a fin de efectuar la remisión en original, en {input$folios} folios, y en sobre cerrado adjunto al presente, de mi DJI correspondiente al ejercicio presupuestal {format(Sys.Date(), '%Y')} y de oportunidad de presentación {input$oportunidad}.")
-    })
+    output$viewerPresentation <- renderText(input$remitente |> add_spaces())
+    output$viewerDNI <- renderText(input$dni |> add_spaces())
+    output$viewerFolios <- renderText(input$folios |> add_spaces())
+    output$viewerOportunidad <- renderText(input$oportunidad |> add_spaces())
     
-    output$viewerPhoneEmail <- renderText({
-        glue::glue("Cualquier coordinación al respecto, sírvase comunicarse al correo electrónico {input$email}  o al teléfono {input$telefono}.")
-    })
+    output$viewerEmail <- renderText(input$email |> add_spaces())
+    output$viewerPhone <- renderText(input$telefono |> add_spaces())
     
     output$viewerSignature <- renderText(paste0(rep("_", nchar(input$remitente) + 5), collapse = ""))
-    output$viewerRemitente <- renderText(input$remitente)
+    output$viewerRemitente <- renderText(input$remitente |> add_spaces())
 }

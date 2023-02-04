@@ -16,29 +16,56 @@ app_ui <- function(request) {
             
             sidebarLayout(
                 sidebarPanel(
-                    textInput("ciudad", "Ciudad de remisión", value = "Lima"),
-                    textInput("remitente", "Nombre de remitente"),
-                    textInput("dni", "N° de DNI", placeholder = "Ejemplo: 07654321"),
-                    numericInput("folios", "N° de folios", value = 1),
+                    class = "p-2",
+                    
+                    textInput(
+                        "ciudad", "Ciudad de remisión", value = "Lima"
+                    ) |> tagAppendAttributes(class = "vi-ciudad"),
+                    
+                    textInput(
+                        "remitente", "Nombre de remitente"
+                    )|> tagAppendAttributes(class = "vi-remitente"),
+                    
+                    textInput(
+                        "dni", "N° de DNI", placeholder = "Ejemplo: 07654321"
+                    ) |> tagAppendAttributes(class = "vi-dni"),
+                    
+                    numericInput(
+                        "folios", "N° de folios", min = 1, max = 99, value = 1
+                    )|> tagAppendAttributes(class = "vi-folios"),
+                    
                     selectInput(
                         inputId = "oportunidad",
                         label = "Oportunidad de presentación",
                         choices = c("al inicio", "periódica", "al cesar"),
                         selected = "al inicio"
-                    ),
-                    textInput("email", "Email"),
-                    textInput("telefono", "N° de teléfono", placeholder = "Ejemplo: 987654321")
+                    )|> tagAppendAttributes(class = "vi-oportunidad"),
+                    
+                    textInput(
+                        "email", "Email"
+                    )|> tagAppendAttributes(class = "vi-email"),
+                    
+                    textInput(
+                        "telefono", "N° de teléfono", placeholder = "Ejemplo: 987654321"
+                    )|> tagAppendAttributes(class = "vi-telefono")
                 ),
                 mainPanel(
                     div(
                         id = "letterWrapper",
                         class = "p-4",
                         div(
-                            textOutput("viewerDate") |> tagAppendAttributes(style = "text-align: right;")    
+                            class="float-right",
+                            tags$p(
+                                textOutput("viewerDate", container = tags$code) |> tagAppendAttributes(class = "vi-ciudad"),
+                                paste0(", ", format(Sys.Date(), "%d de %B de %Y"))
+                            )
                         ),
                         div(
                             class = "mb-2 mt-2",
-                            textOutput("viewerLetterNumber"),
+                            tags$p(
+                                "CARTA N° 01-",
+                                textOutput("viewerLetterNumber", container = tags$code)|> tagAppendAttributes(class = "vi-remitente")
+                            )
                         ),
                         div(
                             tags$p("Señor", class = "mb-0"),
@@ -52,11 +79,34 @@ app_ui <- function(request) {
                             tableOutput("viewerAsuntoReferencia")
                         ),
                         div(
-                            textOutput("viewerLetterBody")
+                            id = "viewerLetterBody",
+                            tags$p(
+                                "Yo, ",
+                                textOutput("viewerPresentation", tags$code) |> tagAppendAttributes(class = "vi-remitente"),
+                                ", identificado con DNI ",
+                                textOutput("viewerDNI", tags$code) |> tagAppendAttributes(class = "vi-dni"), 
+                                ", me dirijo a usted, en el marco de la normativa de la referencia, ", 
+                                "a fin de efectuar la remisión en original, en ",
+                                textOutput("viewerFolios", tags$code) |> tagAppendAttributes(class = "vi-folios"), 
+                                "  folios, y en sobre cerrado adjunto al presente,",
+                                "de mi DJI correspondiente al ejercicio presupuestal ",
+                                format(Sys.Date(), '%Y'),
+                                " y de oportunidad de presentación ", 
+                                textOutput("viewerOportunidad", tags$code) |> tagAppendAttributes(class = "vi-oportunidad"),
+                                "."
+                            )
                         ),
                         div(
+                            id = "viewerPhoneEmail",
                             class = "mt-2",
-                            textOutput("viewerPhoneEmail"),
+                            tags$p(
+                                "Cualquier coordinación al respecto, sírvase comunicarse al correo electrónico ", 
+                                textOutput("viewerEmail", tags$code) |> tagAppendAttributes(class = "vi-email"),
+                                "  o al teléfono ",
+                                textOutput("viewerPhone", tags$code)|> tagAppendAttributes(class = "vi-telefono"),
+                                "."
+                                
+                            )
                         ),
                         div(
                             class = "mt-2 mb-5",
@@ -65,7 +115,7 @@ app_ui <- function(request) {
                         div(
                             class = "mb-3",
                             textOutput("viewerSignature"),
-                            textOutput("viewerRemitente"),
+                            textOutput("viewerRemitente")|> tagAppendAttributes(class = "vi-remitente"),
                         ),
                         downloadButton("generar", "Generar carta", class = "mt-3")
                     ),

@@ -26,3 +26,49 @@
     border-width: thin;
     border-style: solid;
 }
+
+.form-group {
+    margin: 0;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.selectize-control {
+    margin-bottom: 0;
+}
+
+.vi-ciudad {
+    background-color: aliceblue;
+}
+
+.vi-remitente {
+    background-color: #ffe0c3;
+}
+
+.vi-dni {
+    background-color: #b7f7f4;
+}
+
+.vi-folios {
+    background-color: #cbff98;
+}
+
+.vi-oportunidad {
+    background-color: #e5caff;
+}
+
+.vi-email {
+    background-color: #92c5f7;
+}
+
+.vi-telefono {
+    background-color: khaki;
+}
+
+.well {
+    background-color: #FFFFFF;
+}
