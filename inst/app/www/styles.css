@@ -42,7 +42,7 @@
 }
 
 .vi-ciudad {
-    background-color: aliceblue;
+    background-color: aquamarine;
 }
 
 .vi-remitente {
@@ -71,4 +71,9 @@
 
 .well {
     background-color: #FFFFFF;
+}
+
+code {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
 }

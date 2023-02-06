@@ -6,8 +6,6 @@
 #' @noRd
 app_server <- function(input, output, session) {
     
-    add_spaces <- function(x) paste0("__", x, "__")
-    
     inputs <- reactive({
         list(
             "Ciudad" = input$ciudad,
@@ -56,7 +54,7 @@ app_server <- function(input, output, session) {
         }
     )
     
-    output$viewerDate <- renderText(input$ciudad |> add_spaces())
+    output$viewerDate <- renderText(input$ciudad)
     
     output$viewerLetterNumber <- renderText({
         gsub("[^A-Z]","", input$remitente)
@@ -74,14 +72,14 @@ app_server <- function(input, output, session) {
     }, 
     colnames = FALSE, bordered = FALSE)
     
-    output$viewerPresentation <- renderText(input$remitente |> add_spaces())
-    output$viewerDNI <- renderText(input$dni |> add_spaces())
-    output$viewerFolios <- renderText(input$folios |> add_spaces())
-    output$viewerOportunidad <- renderText(input$oportunidad |> add_spaces())
+    output$viewerPresentation <- renderText(input$remitente)
+    output$viewerDNI <- renderText(input$dni)
+    output$viewerFolios <- renderText(input$folios)
+    output$viewerOportunidad <- renderText(input$oportunidad)
     
-    output$viewerEmail <- renderText(input$email |> add_spaces())
-    output$viewerPhone <- renderText(input$telefono |> add_spaces())
+    output$viewerEmail <- renderText(input$email)
+    output$viewerPhone <- renderText(input$telefono)
     
     output$viewerSignature <- renderText(paste0(rep("_", nchar(input$remitente) + 5), collapse = ""))
-    output$viewerRemitente <- renderText(input$remitente |> add_spaces())
+    output$viewerRemitente <- renderText(input$remitente)
 }
